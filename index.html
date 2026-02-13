@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Valentine</title>
+    <style>
+        :root {
+            --bg-pink: #ffe5ec;
+            --heart-red: #ff0a54;
+            --text-grey: #4a4e69;
+        }
+
+        body {
+            background-color: var(--bg-pink);
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-grey);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- Password Overlay Styles --- */
+        #passwordOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-pink);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 5000;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .lock-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 350px;
+            width: 100%;
+        }
+
+        .lock-card h2 {
+            color: var(--heart-red);
+            margin-bottom: 20px;
+        }
+
+        #passInput {
+            width: 80%;
+            padding: 12px;
+            border: 2px solid var(--bg-pink);
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #passInput:focus {
+            border-color: var(--heart-red);
+        }
+
+        .error-msg {
+            color: var(--heart-red);
+            font-size: 0.9rem;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        /* --- Original Styles --- */
+        h1 {
+            color: var(--heart-red);
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .intro-p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .reasons-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .polaroid {
+            flex: 1 1 280px; 
+            max-width: 320px;
+            background: white;
+            padding: 15px 15px 25px 15px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            transform: rotate(var(--rotation));
+            transition: transform 0.3s ease;
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 5;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .reason-caption {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--heart-red);
+        }
+
+        .proposal-area {
+            margin-top: 60px;
+            margin-bottom: 100px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .proposal-area h2 {
+            font-size: 2rem;
+            color: var(--heart-red);
+        }
+
+        .btn-flex {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            min-height: 80px;
+            width: 100%;
+            position: relative;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        #unlockBtn, #yesBtn {
+            background-color: var(--heart-red);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 10, 84, 0.3);
+        }
+
+        #noBtn {
+            background-color: #ced4da;
+            color: #495057;
+            position: absolute;
+        }
+
+        .hidden { display: none !important; }
+
+        #celebration {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        #celebration img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+        }
+
+        .floating-heart {
+            position: fixed;
+            color: var(--heart-red);
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatUp 3s linear forwards;
+        }
+
+        @keyframes floatUp {
+            to {
+                transform: translateY(-100vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="passwordOverlay">
+        <div class="lock-card">
+            <h2>Enter Password ❤️</h2>
+            <p style="margin-bottom: 15px; font-size: 0.9rem;">Hint: Your Name</p>
+            <input type="password" id="passInput" placeholder="Password...">
+            <div id="errorMsg" class="error-msg">Incorrect, try again babe!</div>
+            <button id="unlockBtn">Open My Heart</button>
+        </div>
+    </div>
+
+    <div id="mainContainer" class="hidden">
+        <h1>10 Reasons Why I Love You ❤️</h1>
+        <p class="intro-p">Every single day, you give me a million reasons to smile.</p>
+
+        <div class="reasons-gallery">
+            <div class="polaroid" style="--rotation: -2deg;">
+                <img src="Phengs/ndwin.jpeg" alt="Reason 1">
+                <div class="reason-caption">1. You choose your boy over and over through thick and thin.</div>
+            </div>
+            <div class="polaroid" style="--rotation: 3deg;">
+                <img src="Phengs/airport.jpeg" alt="Reason 2">
+                <div class="reason-caption">2. Every minute spent with you is never wasted mommy.</div>
+            </div>
+            <div class="polaroid" style="--rotation: -1deg;">
+                <img src="Phengs/black on black.jpg" alt="Reason 3">
+                <div class="reason-caption">3. Even in tough times you still trust and have faith in the lord.</div>
+            </div>
+            <div class="polaroid" style="--rotation: 4deg;">
+                <img src="Phengs/dw house.jpg" alt="Reason 4">
+                <div class="reason-caption">4. You are the best thing that has ever happened to me.</div>
+            </div>
+            <div class="polaroid" style="--rotation: -3deg;">
+                <img src="Phengs/inter photo shoot.jpeg" alt="Reason 5">
+                <div class="reason-caption">5. Your support towards my dreams keeps me going even when i dont want to.</div>
+            </div>
+            <div class="polaroid" style="--rotation: 2deg;">
+                <img src="Phengs/dw house.jpg" alt="Reason 6">
+                <div class="reason-caption">6. I must say, Your body does really drive me crazy Babe.</div>
+            </div>
+            <div class="polaroid" style="--rotation: -4deg;">
+                <img src="Phengs/cape view.jpg" alt="Reason 7">
+                <div class="reason-caption">7. I pray to God and look forward to the day i will marry you and spend the rest of my life with you.</div>
+            </div>
+            <div class="polaroid" style="--rotation: 1deg;">
+                <img src="Phengs/die akker.jpeg" alt="Reason 8">
+                <div class="reason-caption">8. You are the most hard working woman i have ever met in my life and i appreciate you so much for not giving up.</div>
+            </div>
+            <div class="polaroid" style="--rotation: 5deg;">
+                <img src="Phengs/first d.jpg" alt="Reason 9">
+                <div class="reason-caption">9. The most quiet girl i know but too loud and with me.</div>
+            </div>
+            <div class="polaroid" style="--rotation: -2deg;">
+                <img src="Phengs/ingawi.jpeg" alt="Reason 10">
+                <div class="reason-caption">10. I love you because you are the best woman i have ever met. If i were to choose over and over, I will always choose you.</div>
+            </div>
+        </div>
+
+        <div class="proposal-area">
+            <h2>Phenyo Motebe, will you be my Valentine?</h2>
+            <div class="btn-flex">
+                <button id="yesBtn">YES! ❤️</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="celebration" class="hidden">
+        <h1 style="font-size: 4rem;">I knew you'd say yes! 😍</h1>
+        <p style="font-size: 1.5rem;">I can't wait to celebrate with you.</p>
+        <img src="Phengs/ani.jpg" alt="Success!">
+    </div>
+
+    <script>
+        // PASSWORD LOGIC
+        const correctPassword = "Phenyo"; // <--- CHANGE YOUR PASSWORD HERE
+        
+        const unlockBtn = document.getElementById('unlockBtn');
+        const passInput = document.getElementById('passInput');
+        const passwordOverlay = document.getElementById('passwordOverlay');
+        const errorMsg = document.getElementById('errorMsg');
+        const main = document.getElementById('mainContainer');
+
+        unlockBtn.addEventListener('click', () => {
+            if (passInput.value.toLowerCase() === correctPassword.toLowerCase()) {
+                passwordOverlay.style.display = 'none';
+                main.classList.remove('hidden');
+            } else {
+                errorMsg.style.display = 'block';
+                passInput.value = "";
+            }
+        });
+
+        // PROPOSAL LOGIC
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const success = document.getElementById('celebration');
+
+        const avoid = () => {
+            const maxX = window.innerWidth - noBtn.offsetWidth;
+            const maxY = window.innerHeight - noBtn.offsetHeight;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        };
+
+        noBtn.addEventListener('mouseover', avoid);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            avoid();
+        });
+
+        yesBtn.addEventListener('click', () => {
+            main.classList.add('hidden');
+            success.classList.remove('hidden');
+            setInterval(createHeart, 200);
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
